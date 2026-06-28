@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>戰國史料資料庫</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>戰國史料資料庫</h1>
+
+  <input id="searchBox" placeholder="搜尋年份、人物、國家、事件">
+  <button onclick="searchData()">搜尋</button>
+
+  <table>
+    <thead>
+      <tr>
+        <th>西元前年</th>
+        <th>紀年標題</th>
+        <th>國家</th>
+        <th>人物</th>
+        <th>事件詞</th>
+        <th>原文內容</th>
+      </tr>
+    </thead>
+    <tbody id="resultBody"></tbody>
+  </table>
+
+  <script src="app.js"></script>
+</body>
+</html>

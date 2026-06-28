@@ -1,0 +1,27 @@
+body{
+    font-family:"Microsoft JhengHei";
+    margin:30px;
+}
+
+h1{
+    color:blue;
+}
+
+table{
+    border-collapse:collapse;
+    width:100%;
+}
+
+th,td{
+    border:1px solid black;
+    padding:8px;
+}
+
+input{
+    width:400px;
+    padding:5px;
+}
+
+button{
+    padding:5px;
+}
