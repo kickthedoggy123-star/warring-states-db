@@ -1,7 +1,7 @@
 let allData = [];
 
 async function loadCSV() {
-  const response = await fetch("../data/events.csv");
+const response = await fetch("./events.csv");
   const text = await response.text();
 
   const lines = text.trim().split("\n");
