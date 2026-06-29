@@ -195,4 +195,18 @@ td:last-child {
 
     margin:auto;
 
+}/* 搜尋關鍵詞反紅 */
+
+mark{
+
+    background:#d62828;
+
+    color:white;
+
+    padding:2px 4px;
+
+    border-radius:3px;
+
+    font-weight:bold;
+
 }

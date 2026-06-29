@@ -74,6 +74,25 @@ function buildYearList(data) {
 }
 
 /* 渲染表格 */
+function highlight(text){
+
+    const keyword=document.getElementById("searchBox").value.trim();
+
+    if(keyword===""){
+
+        return text;
+
+    }
+
+    const regex=new RegExp(keyword,"gi");
+
+    return String(text).replace(regex,function(match){
+
+        return "<mark>"+match+"</mark>";
+
+    });
+
+}
 function render(data, titleText) {
     const tbody = document.getElementById("resultBody");
     const title = document.getElementById("resultTitle");
@@ -85,14 +104,14 @@ function render(data, titleText) {
         const tr = document.createElement("tr");
 
         tr.innerHTML = `
-            <td>${row["西元前年"] || ""}</td>
-            <td>${row["紀年標題"] || ""}</td>
-            <td>${row["國家"] || ""}</td>
-            <td>${row["人物"] || ""}</td>
-            <td>${row["事件詞"] || ""}</td>
-            <td>${row["原文內容"] || ""}</td>
-        `;
+            <td>${highlight(row["西元前年"]||"")}</td>
+            <td>${highlight(row["紀年標題"]||"")}</td>
+            <td>${highlight(row["國家"]||"")}</td>
+            <td>${highlight(row["人物"]||"")}</td>
+            <td>${highlight(row["事件詞"]||"")}</td>
+            <td>${highlight(row["原文內容"]||"")}</td>
 
+`;
         tbody.appendChild(tr);
     });
 }
