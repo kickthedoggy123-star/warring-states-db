@@ -92,6 +92,31 @@ function highlight(text){
 
     });
 
+function formatText(text) {
+
+    if (!text) return "";
+
+    let result = "";
+    let open = true;
+
+    for (const ch of String(text)) {
+
+        if (ch === '"') {
+
+            result += open ? "「" : "」";
+
+            open = !open;
+
+        } else {
+
+            result += ch;
+
+        }
+
+    }
+
+    return result;
+}
 }
 function render(data, titleText) {
     const tbody = document.getElementById("resultBody");
@@ -107,10 +132,9 @@ function render(data, titleText) {
             <td>${highlight(row["西元前年"]||"")}</td>
             <td>${highlight(row["紀年標題"]||"")}</td>
             <td>${highlight(row["國家"]||"")}</td>
-            <td>${highlight(row["人物"]||"")}</td>
-            <td>${highlight(row["事件詞"]||"")}</td>
-            <td>${highlight(row["原文內容"]||"")}</td>
-
+            <td>${highlight(formatText(row["人物"]))}</td>
+            <td>${highlight(formatText(row["事件詞"]))}</td>
+            <td>${highlight(formatText(row["原文內容"]))}</td>
 `;
         tbody.appendChild(tr);
     });
