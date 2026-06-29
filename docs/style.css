@@ -171,20 +171,28 @@ td:last-child {
     }
 }.site-footer{
 
-    margin-top:40px;
+    margin-top:50px;
 
-    padding:20px;
+    padding:25px;
 
     text-align:center;
 
     font-size:15px;
 
-    color:#5d5d5d;
+    color:#555555;
 
-    background-color:rgba(255,250,240,.75);
+    line-height:1.8;
+
+    background-color:rgba(255,252,245,.88);
 
     border-top:1px solid #c8b894;
 
-    line-height:1.8;
+}
+
+.site-footer p{
+
+    max-width:1000px;
+
+    margin:auto;
 
 }
