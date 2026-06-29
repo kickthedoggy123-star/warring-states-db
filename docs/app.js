@@ -1,57 +1,127 @@
 let allData = [];
 
+/* 讀取 CSV */
 async function loadCSV() {
-const response = await fetch("./events.csv");
-  const text = await response.text();
+    const response = await fetch("./events.csv");
+    const text = await response.text();
 
-  const lines = text.trim().split("\n");
-  const headers = lines[0].split(",");
+    allData = parseCSV(text);
 
-  allData = lines.slice(1).map(line => {
-    const values = line.split(",");
-    let obj = {};
-    headers.forEach((h, i) => {
-      obj[h.trim()] = values[i] ? values[i].trim() : "";
+    buildYearList(allData);
+    render(allData.slice(0, 200), "事件內容：顯示前 200 筆");
+}
+
+/* 簡易 CSV 解析器 */
+function parseCSV(text) {
+    const lines = text.trim().split(/\r?\n/);
+    const headers = splitCSVLine(lines[0]);
+
+    return lines.slice(1).map(line => {
+        const values = splitCSVLine(line);
+        let obj = {};
+
+        headers.forEach((header, index) => {
+            obj[header.trim()] = values[index] ? values[index].trim() : "";
+        });
+
+        return obj;
     });
-    return obj;
-  });
-
-  render(allData.slice(0, 100));
 }
 
-function render(data) {
-  const tbody = document.getElementById("resultBody");
-  tbody.innerHTML = "";
+/* 處理 CSV 逗號與引號 */
+function splitCSVLine(line) {
+    const result = [];
+    let current = "";
+    let insideQuotes = false;
 
-  data.forEach(row => {
-    const tr = document.createElement("tr");
+    for (let i = 0; i < line.length; i++) {
+        const char = line[i];
 
-    tr.innerHTML = `
-      <td>${row["西元前年"] || row["year_label"] || ""}</td>
-      <td>${row["紀年標題"] || row["reign_title"] || ""}</td>
-      <td>${row["國家"] || row["states"] || ""}</td>
-      <td>${row["人物"] || row["people"] || ""}</td>
-      <td>${row["事件詞"] || row["keywords"] || ""}</td>
-      <td>${row["原文內容"] || row["event_text"] || ""}</td>
-    `;
+        if (char === '"') {
+            insideQuotes = !insideQuotes;
+        } else if (char === "," && !insideQuotes) {
+            result.push(current);
+            current = "";
+        } else {
+            current += char;
+        }
+    }
 
-    tbody.appendChild(tr);
-  });
+    result.push(current);
+    return result;
 }
 
+/* 建立左側年份索引 */
+function buildYearList(data) {
+    const yearList = document.getElementById("yearList");
+    yearList.innerHTML = "";
+
+    const years = [...new Set(data.map(row => row["西元前年"]))];
+
+    years.forEach(year => {
+        if (!year) return;
+
+        const div = document.createElement("div");
+        div.className = "year-item";
+        div.textContent = year;
+
+        div.onclick = function () {
+            filterByYear(year);
+        };
+
+        yearList.appendChild(div);
+    });
+}
+
+/* 渲染表格 */
+function render(data, titleText) {
+    const tbody = document.getElementById("resultBody");
+    const title = document.getElementById("resultTitle");
+
+    tbody.innerHTML = "";
+    title.textContent = titleText || "事件內容";
+
+    data.forEach(row => {
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+            <td>${row["西元前年"] || ""}</td>
+            <td>${row["紀年標題"] || ""}</td>
+            <td>${row["國家"] || ""}</td>
+            <td>${row["人物"] || ""}</td>
+            <td>${row["事件詞"] || ""}</td>
+            <td>${row["原文內容"] || ""}</td>
+        `;
+
+        tbody.appendChild(tr);
+    });
+}
+
+/* 搜尋 */
 function searchData() {
-  const keyword = document.getElementById("searchBox").value.trim();
+    const keyword = document.getElementById("searchBox").value.trim();
 
-  if (!keyword) {
-    render(allData.slice(0, 100));
-    return;
-  }
+    if (!keyword) {
+        showAll();
+        return;
+    }
 
-  const result = allData.filter(row => {
-    return Object.values(row).join(" ").includes(keyword);
-  });
+    const result = allData.filter(row => {
+        return Object.values(row).join(" ").includes(keyword);
+    });
 
-  render(result);
+    render(result, `搜尋結果：「${keyword}」共 ${result.length} 筆`);
+}
+
+/* 點年份 */
+function filterByYear(year) {
+    const result = allData.filter(row => row["西元前年"] === year);
+    render(result, `${year}：共 ${result.length} 筆事件`);
+}
+
+/* 顯示全部 */
+function showAll() {
+    render(allData.slice(0, 500), "事件內容：顯示前 500 筆");
 }
 
 loadCSV();
