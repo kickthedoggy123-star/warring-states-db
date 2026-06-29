@@ -94,19 +94,25 @@ function highlight(text) {
     });
 }
 
-/* 將中文彎引號改為中文上下引號 */
+/* 將英文雙引號改為中文上下引號 */
 function formatText(text) {
-
     if (text === undefined || text === null) {
         return "";
     }
 
-    return String(text)
-        .replace(/“/g, "「")
-        .replace(/”/g, "」")
-        .replace(/‘/g, "『")
-        .replace(/’/g, "』");
-}
+    let result = "";
+    let open = true;
+    const str = String(text);
+
+    for (let i = 0; i < str.length; i++) {
+        const ch = str[i];
+
+        if (ch === '"') {
+            result += open ? "「" : "」";
+            open = !open;
+        } else {
+            result += ch;
+        }
     }
 
     return result;
