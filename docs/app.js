@@ -73,25 +73,28 @@ function buildYearList(data) {
     });
 }
 
-/* 渲染表格 */
-function highlight(text){
+/* 避免搜尋特殊符號造成錯誤 */
+function escapeRegExp(text) {
+    return String(text).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
 
-    const keyword=document.getElementById("searchBox").value.trim();
+/* 搜尋關鍵詞反紅 */
+function highlight(text) {
+    const keyword = document.getElementById("searchBox").value.trim();
 
-    if(keyword===""){
-
-        return text;
-
+    if (!keyword) {
+        return text || "";
     }
 
-    const regex=new RegExp(keyword,"gi");
+    const safeKeyword = escapeRegExp(keyword);
+    const regex = new RegExp(safeKeyword, "gi");
 
-    return String(text).replace(regex,function(match){
-
-        return "<mark>"+match+"</mark>";
-
+    return String(text || "").replace(regex, function (match) {
+        return "<mark>" + match + "</mark>";
     });
+}
 
+/* 將英文雙引號改為中文上下引號 */
 function formatText(text) {
     if (text === undefined || text === null) {
         return "";
@@ -114,6 +117,8 @@ function formatText(text) {
 
     return result;
 }
+
+/* 渲染表格 */
 function render(data, titleText) {
     const tbody = document.getElementById("resultBody");
     const title = document.getElementById("resultTitle");
@@ -131,7 +136,8 @@ function render(data, titleText) {
             <td>${highlight(formatText(row["人物"] || ""))}</td>
             <td>${highlight(formatText(row["事件詞"] || ""))}</td>
             <td>${highlight(formatText(row["原文內容"] || ""))}</td>
-`;
+        `;
+
         tbody.appendChild(tr);
     });
 }
@@ -162,21 +168,17 @@ function filterByYear(year) {
 function showAll() {
     render(allData.slice(0, 500), "事件內容：顯示前 500 筆");
 }
-document.addEventListener("DOMContentLoaded", function () {
 
+/* Enter 搜尋 */
+document.addEventListener("DOMContentLoaded", function () {
     const searchBox = document.getElementById("searchBox");
 
     searchBox.addEventListener("keydown", function (event) {
-
         if (event.key === "Enter") {
-
             event.preventDefault();
-
             searchData();
-
         }
-
     });
-
 });
+
 loadCSV();
