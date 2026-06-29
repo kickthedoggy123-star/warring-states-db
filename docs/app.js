@@ -142,5 +142,21 @@ function filterByYear(year) {
 function showAll() {
     render(allData.slice(0, 500), "事件內容：顯示前 500 筆");
 }
+document.addEventListener("DOMContentLoaded", function () {
 
+    const searchBox = document.getElementById("searchBox");
+
+    searchBox.addEventListener("keydown", function (event) {
+
+        if (event.key === "Enter") {
+
+            event.preventDefault();
+
+            searchData();
+
+        }
+
+    });
+
+});
 loadCSV();
