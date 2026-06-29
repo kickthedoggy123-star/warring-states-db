@@ -1,9 +1,9 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: "Noto Serif TC", "Microsoft JhengHei", serif;
+    font-family: "Noto Serif TC", "PMingLiU", "新細明體", serif;
     line-height: 1.8;
-    color: #2b2b2b;
+    color: #2c2c2c;
 
     background-image: url("background-ink-wash.jpg");
     background-size: cover;
@@ -12,56 +12,161 @@ body {
     background-repeat: no-repeat;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 30px;
+/* 整體宣紙容器 */
+.page {
+    max-width: 1400px;
+    margin: 36px auto;
+    padding: 32px;
 
-    background-color: rgba(255, 255, 255, 0.86);
-    border: 1px solid #d6c8aa;
-    box-shadow: 0 0 18px rgba(0, 0, 0, 0.18);
+    background-color: rgba(255, 250, 238, 0.88);
+    border: 1px solid #d6c4a2;
+    box-shadow: 0 0 24px rgba(50, 40, 25, 0.25);
 }
 
-h1 {
+/* 標題區 */
+.site-header {
     text-align: center;
-    color: #1a3a52;
-    letter-spacing: 4px;
-    font-size: 32px;
+    border-bottom: 2px solid #9b7b50;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
 }
 
-input {
-    width: 400px;
-    padding: 8px;
-    font-size: 16px;
-    border: 1px solid #999;
+.site-header h1 {
+    margin: 0;
+    font-family: "DFKai-SB", "標楷體", "KaiTi", serif;
+    font-size: 42px;
+    letter-spacing: 8px;
+    color: #1f3f52;
 }
 
-button {
-    padding: 8px 16px;
-    font-size: 16px;
-    background-color: #1a3a52;
-    color: white;
+.site-header p {
+    margin: 8px 0 0 0;
+    color: #6f5b3e;
+    font-size: 18px;
+}
+
+/* 搜尋區 */
+.search-area {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.search-area input {
+    width: 420px;
+    max-width: 70%;
+    padding: 9px 12px;
+    font-size: 18px;
+    border: 1px solid #a89066;
+    background-color: rgba(255, 255, 255, 0.86);
+}
+
+.search-area button {
+    padding: 9px 16px;
+    margin-left: 6px;
+    font-size: 17px;
     border: none;
+    background-color: #1f3f52;
+    color: white;
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #0d2536;
+.search-area button:hover {
+    background-color: #8a5a2b;
 }
 
+/* 左右閱讀器版面 */
+.reader-layout {
+    display: flex;
+    gap: 24px;
+}
+
+/* 左側年份索引 */
+.year-panel {
+    width: 220px;
+    flex-shrink: 0;
+    padding: 18px;
+
+    background-color: rgba(246, 238, 218, 0.9);
+    border: 1px solid #c9b48b;
+    max-height: 75vh;
+    overflow-y: auto;
+}
+
+.year-panel h2 {
+    margin-top: 0;
+    font-family: "DFKai-SB", "標楷體", serif;
+    color: #6b3f1d;
+    text-align: center;
+}
+
+.year-item {
+    padding: 6px 8px;
+    margin-bottom: 4px;
+    cursor: pointer;
+    border-bottom: 1px solid #ddcba9;
+}
+
+.year-item:hover {
+    background-color: #efe0bd;
+    color: #7a3512;
+}
+
+/* 右側內容 */
+.content-panel {
+    flex: 1;
+    min-width: 0;
+}
+
+.content-panel h2 {
+    margin-top: 0;
+    font-family: "DFKai-SB", "標楷體", serif;
+    color: #6b3f1d;
+}
+
+/* 表格 */
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
     background-color: rgba(255, 255, 255, 0.92);
 }
 
+th {
+    background-color: #e8dcc2;
+    color: #3b2a1a;
+    font-weight: bold;
+}
+
 th, td {
-    border: 1px solid #c8c8c8;
+    border: 1px solid #c8b894;
     padding: 8px 10px;
     vertical-align: top;
 }
 
-th {
-    background-color: #f0f0f0;
+/* 批注式高亮 */
+tbody tr:hover {
+    background-color: #fff3bf;
+}
+
+/* 原文欄位加強可讀性 */
+td:last-child {
+    font-size: 17px;
+    line-height: 1.9;
+}
+
+/* 小螢幕適應 */
+@media screen and (max-width: 900px) {
+    .reader-layout {
+        flex-direction: column;
+    }
+
+    .year-panel {
+        width: auto;
+        max-height: 260px;
+    }
+
+    .search-area input {
+        width: 90%;
+        max-width: 90%;
+        margin-bottom: 8px;
+    }
 }
