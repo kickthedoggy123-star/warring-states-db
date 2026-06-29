@@ -199,14 +199,12 @@ td:last-child {
 
 mark{
 
-    background:#d62828;
+    background:#ffe082;
 
-    color:white;
-
-    padding:2px 4px;
-
-    border-radius:3px;
+    color:#b71c1c;
 
     font-weight:bold;
+
+    padding:1px 3px;
 
 }
